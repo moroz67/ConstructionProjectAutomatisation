@@ -29,7 +29,7 @@ for i in range(len(myListWithoutSlash)):
     # lets make row height 11 cm
     row_cells[0].text = f"фото {n}"  # содержание первого столбца
     picture = Image.open(f'./imgs/{myListWithoutSlash[i]}')  # open image
-    width, height = picture.size # get picture size in pixels
+    width, height = picture.size  # get picture size in pixels
     text = ''
     flag = False
     t = 0
@@ -40,7 +40,7 @@ for i in range(len(myListWithoutSlash)):
         if flag:
             text += myListWithoutSlash[i][s - 1 - 2 * t]
         t += 1
-    text = text[::-1] # reverse text to get correct name
+    text = text[::-1]  # reverse text to get correct name
     picture.save(f'./imgs/{text}_{n}.jpeg')  # пересохраняем в jpeg
     row_cells[1].text = text  # содержание второго столбца
     p = row_cells[2].add_paragraph()
@@ -48,7 +48,12 @@ for i in range(len(myListWithoutSlash)):
     # lets make all pictures in doc have the same width
     # so height will be calculated with regard to height / width ratio
     picture_constant = height / width
-    r.add_picture(f'./imgs/{text}_{n}.jpeg', width=Cm(
+    if picture_constant >= 1:
+        r.add_picture(f'./imgs/{text}_{n}.jpeg', width=Cm(
+                 11),
+                 height=Cm(11 * picture_constant))
+    else:
+        r.add_picture(f'./imgs/{text}_{n}.jpeg', width=Cm(
                  13),
                  height=Cm(13 * picture_constant))
     picture.close()
@@ -60,9 +65,10 @@ for row in range(len(table.rows)):
         pass
     else:
         table.rows[row].height = Cm(11)
-# change doc margins
+
+# change doc margins make them as narrow as possible
 sections = document.sections
-margin = 0.5
+margin = 1
 for section in sections:
     section.top_margin = Cm(margin)
     section.bottom_margin = Cm(margin)
