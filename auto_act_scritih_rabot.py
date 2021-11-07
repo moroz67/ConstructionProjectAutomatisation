@@ -1,6 +1,6 @@
 """Создаем АОСР. Работаем с пандой для получения словаря значений из иксель таблицы."""
 from pandas import *
-# библиотека нажна, чтобы заполнить шаблон из Ворда
+# библиотека нужна, чтобы заполнить шаблон из Ворда
 from docxtpl import DocxTemplate
 import datetime
 from tkinter import Tk
